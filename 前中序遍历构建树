@@ -1,0 +1,51 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        Map<Integer, Integer> or_map = new HashMap<>();
+        for(int i=0; i < preorder.length; i++){
+            or_map.put(inorder[i], i);
+        }
+
+        // 注意边界
+        return build(preorder, inorder, 0, preorder.length - 1, 0, preorder.length -1 , or_map);
+
+    }
+
+    public TreeNode build(int[] preorder, int[] inorder, int preStart, int preEnd,int start,int end, Map<Integer, Integer> orMap){
+        if(preStart > preEnd || start > end){
+            return null;
+        }
+
+        /*
+        * 思路：
+        * 1、前序遍历确定根节点
+        * 2、确定根节点在中序遍历的位置，位置前的都是左节点，位置后的都是右节点
+        * 3、确定左子树在前序遍历中的长度，递归遍历前序遍历中的左子树，直到左子树遍历完
+        * 4、同理遍历右子树
+        */
+        TreeNode node = new TreeNode(preorder[preStart]);
+        int idx = orMap.get(preorder[preStart]);
+        int numLeft = idx - start;
+
+
+        node.left = build(preorder, inorder, preStart + 1, preEnd, start, idx - 1, orMap);
+        node.right = build(preorder, inorder, preStart + numLeft + 1, preEnd, idx + 1, end, orMap);
+
+        return node;
+    }
+
+}
