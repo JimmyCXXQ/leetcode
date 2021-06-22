@@ -10,7 +10,7 @@ class Solution {
         // 不相等时，需要判断i - 1 与 到j 位置的最大子序列 以及 i, j - 1位置最大公共子序列
         // 因为要保持顺序一致，所以 i - 1不可以与 j 后面的相等， 故需要得到的是 i - 1与 j 的最大公共子序列
         // i 到 j - 1同理
-        //  例如：abcde 与 cbd 对比到 c 与 e, 当已经对比完 b与b 时，dp[1][1] = 1，再对比b 与 d, dp[1][2]
+        //  例如：adc 与  abd, c d不相等, 但是 adc 与 ab = 1，ad 与 abd = 2 
     
         int n = text1.length(), m = text2.length();
         int[][] dp = new int[n + 1][m + 1];
