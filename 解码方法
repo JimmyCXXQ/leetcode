@@ -1,0 +1,24 @@
+class Solution {
+    public int numDecodings(String s) {
+        int len = s.length();
+        // 思路：
+        // 两种情况, 数组初始化值为 0
+        // 1、用当前一个字符做编码 dp[i] += dp[i - 1] 如： "12" dp[i - 1] = 1 dp[i] += dp[i - 1] = 1
+        // 2、用当前与前一个字符共2个字符编码，保证前一个为字符不等于 0 且 组合整数值后小于 27
+ 
+        int[] dp = new int[len + 1];
+        dp[0] = 1;
+
+        for(int i=1;i<len + 1;i++){
+            if(s.charAt(i - 1) != '0'){
+                dp[i] += dp[i - 1];
+            }
+            
+            if(i > 1 && (s.charAt(i - 2) == '2' && Integer.valueOf(String.valueOf(s.charAt(i - 1))) < 7 || s.charAt(i - 2) == '1')){
+                dp[i] += dp[i - 2];
+            }
+        }
+
+        return dp[len];
+    }
+}
